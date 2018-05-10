@@ -134,6 +134,13 @@ spec:
     data:
       prefix: data
       replicas: 2
+      storage:
+        storageClassName: "standard"
+        accessModes:
+        - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi
     client:
       prefix: client
       replicas: 2
@@ -184,6 +191,9 @@ Three StatefulSets are created
 
     - `spec.replicas` is set to `2`. Two dedicated nodes is created as client.
     - Label `node.role.client: set` is added in Pods
+    - Each Pod will receive a single PersistentVolume with a StorageClass of **standard** and **50Mi** of provisioned storage.
+
+> Default `spec.storage` will be used in Client nodes as no dedicated storage specification is provided
 
 - data-topology-es
 
@@ -193,11 +203,20 @@ Three StatefulSets are created
         data:
           prefix: data
           replicas: 2
+          storage:
+            storageClassName: "standard"
+            accessModes:
+            - ReadWriteOnce
+            resources:
+              requests:
+                storage: 1Gi
     ```
 
     This configuration creates a StatefulSet named `data-topology-es` for data node
 
     - `spec.replicas` is set to `2`. Two dedicated nodes is created for data.
+    - Label `node.role.data: set` is added in Pods
+    - Each Pod will receive a single PersistentVolume with a StorageClass of **standard** and **1 Gib** of provisioned storage. 
 
 - master-topology-es
 
@@ -213,7 +232,7 @@ Three StatefulSets are created
 
     - `spec.replicas` is set to `1`. One dedicated node is created as master.
     - Label `node.role.master: set` is added in Pods
-
+    - Each Pod will receive a single PersistentVolume with a StorageClass of **standard** and **50Mi** of provisioned storage.
 
 > Note: StatefulSet name format: `{topology-prefix}-{elasticsearch-name}`
 
