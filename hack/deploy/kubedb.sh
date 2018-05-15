@@ -112,6 +112,7 @@ if [ "$APPSCODE_ENV" = "dev" ]; then
 fi
 
 if [ ! -z ${CUSTOM_OPERATOR_TAG:-} ]; then
+    echo "demo"
     export KUBEDB_OPERATOR_TAG="${CUSTOM_OPERATOR_TAG}"
 fi
 
